@@ -1,0 +1,29 @@
+{% extends './base.html' %}
+
+{% block content %}
+	<h1 class="title"> Igor Todo List </h1>
+	<form method="POST" class="top-task">
+		{% csrf_token %}
+		{{form.as_p}}
+		<button class="btn" type="submit">Create Task</button>
+	</form>
+
+	<ul class="task-list">
+	{% for todo in todo %}
+		<li class="todo-item">{{todo.title}}	
+			
+			<div class="buttons">
+				<form method="POST" action="{% url 'delete' pk=todo.id %}">
+					{% csrf_token %}
+					<input type="submit" class="delete btn" value="Delete">
+				</form>
+
+				<form method="GET" action="{% url 'edit' pk=todo.id %}">
+					{% csrf_token %}
+					<input type="submit" class="edit btn" value="edit">
+				</form>
+			</div>
+		</li>
+	{% endfor %}
+	</ul>
+{% endblock %}
